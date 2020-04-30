@@ -23,26 +23,38 @@
           src="https://i.pravatar.cc/300"
           class="rounded-full h-32 w-32 my-3 object-center object-cover" alt="">
         <div class="py-3 text-center">
-          <p class="font-semibold tracking-wide leading-snug text-gray-900 text-xl">Davis Wambugu</p>
-          <p class="leading-snug text-davis-red text-gray-500">Nairobi, Kenya.</p>
+          <p class="font-semibold tracking-wide leading-snug text-gray-900 text-xl">{{ $auth.user.username}}</p>
+          <p class="leading-snug text-davis-red text-gray-500">{{$auth.user.city}}, {{$auth.user.location}}.</p>
           <p class="leading-snug text-sm text-gray-400">
-            <span class="font-semibold text-gray-500">32</span> posts
+            <span class="font-semibold text-gray-500">{{userPhotosCount}}</span>
           </p>
         </div>
-        <div class="py-3 w-full flex justify-center">
-          <button class="bg-davis-red text-white font-bold py-2 px-6 rounded">
-            Profile
+        <div v-if="$auth.loggedIn" class="py-3 w-full flex justify-center">
+          <button class="bg-davis-red text-white font-semibold py-2 px-6 rounded"
+                  @click="logout()"
+          >
+            Log Out
           </button>
         </div>
         <div class="py-3 w-full">
           <div class="flex items-center mb-2">
-            <h1 class="text font-semibold text-gray-800">Favourites</h1>
+            <h1 class="text font-semibold text-gray-800">Favourite collages</h1>
+          </div>
+          <tags :collages="userCollages"/>
+        </div>
+        <div class="py-3 w-full">
+          <div class="flex items-center mb-2">
+            <h1 class="text font-semibold text-gray-800">Last posted</h1>
           </div>
           <div class="flex flex-row flex-wrap">
-            <img v-for="(collage, index) in collages" :key="index"
-                 :src="'https://source.unsplash.com/featured/?' + collage"
-                 class="rounded-lg h-12 w-12 my-1 object-center object-cover mr-2"
-                 alt="">
+            <div v-for="(photo, index) in userPhotos" :key="index">
+              <nuxt-link :to="`/photos/` + photo.id">
+                <img
+                     :src="photo.url"
+                     class="rounded-lg h-12 w-12 my-1 object-center object-cover mr-2"
+                     alt="">
+              </nuxt-link>
+            </div>
           </div>
         </div>
       </div>
@@ -51,17 +63,39 @@
 </template>
 
 <script>
+  import { mapState, mapActions } from 'vuex'
   import NavBar from '../components/Navbar'
-  import SvgIcon from '@/components/SVG'
+  import SvgIcon from '../components/SVG'
+  import Tags from '../components/Tags'
 
   export default {
     components: {
       NavBar,
       SvgIcon,
+      Tags
     },
-    data: () => {
-      return {
-        collages: ['nature', 'animals', 'people', 'travel']
+    computed: {
+      ...mapState('photos', ['userPhotos', 'userCollages']),
+      userPhotosCount(){
+        if(this.userPhotos !== null){
+          return this.userPhotos.length + ' posts'
+        } else {
+          return 'No posts'
+        }
+      }
+    },
+    methods: {
+      ...mapActions({
+        fetchUserPhotos: 'photos/fetchUserPhotos'
+      }),
+      logout(){
+        this.$auth.logout()
+        window.location.replace('/login')
+      }
+    },
+    mounted () {
+      if (this.userPhotos === null) {
+        this.fetchUserPhotos()
       }
     }
   }

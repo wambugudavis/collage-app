@@ -9,7 +9,7 @@ module.exports = {
     extend: {
       colors: {
         'davis-grey-dark': '#454360',
-        'davis-grey-light': '#F4F8FB',
+        'davis-grey-light': '#F7FAFC',
         'davis-red': '#FE4C5F',
         'davis-red-light': 'rgba(254,76,95,0.25)',
         'davis-purple': '#6C6DE5',
