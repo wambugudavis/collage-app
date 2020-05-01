@@ -1,6 +1,6 @@
 # Collage
-
-> Share amazing moments
+A CRUD application that consumes APIS served from this [repository](https://github.com/wambugudavis/collage-apis)
+> Web application for authenticated users to post and share imagess
 
 ## Build Setup
 
@@ -19,4 +19,12 @@ $ yarn start
 $ yarn generate
 ```
 
-For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
+## Built With
+
+* [NuxtJS](https://nuxtjs.org) - The web framework used
+* [Tailwind](https://tailwindcss.com/) - CSS framework
+* [Unsplash](https://unsplash.com/) - Stock images
+
+## Authors
+
+* **[Davis Wambugu](https://github.com/wambugudavis)**

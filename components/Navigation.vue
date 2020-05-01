@@ -49,7 +49,7 @@
             path: '/'
           },
           {
-            icon: 'Tag',
+            icon: 'Plus',
             path: '/photos/add'
           },
           {

@@ -95,7 +95,7 @@
       if (this.photos === null) {
         this.fetchPhoto()
       } else {
-        this.form = this.photo
+        this.form = { ...this.photo }
       }
     }
   }
